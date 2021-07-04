@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.leekoko.nytzj.flow.dao.YwFlowRelationDao">
+    <resultMap id="BaseResultMap" type="YwFlowRelation">
+	 
+		<result property="id" column="ID" jdbcType="VARCHAR"/>
+	 
+		<result property="ywKey" column="YW_KEY" jdbcType="VARCHAR"/>
+	 
+		<result property="flowId" column="FLOW_ID" jdbcType="VARCHAR"/>
+	 
+		<result property="type" column="TYPE" jdbcType="NUMERIC"/>
+	 
+		<result property="remark" column="REMARK" jdbcType="VARCHAR"/>
+	 
+		<result property="delFlag" column="DEL_FLAG" jdbcType="NUMERIC"/>
+	 
+		<result property="createDate" column="CREATE_DATE" jdbcType="VARCHAR"/>
+	 
+		<result property="modifyDate" column="MODIFY_DATE" jdbcType="VARCHAR"/>
+	 
+		<result property="creator" column="CREATOR" jdbcType="VARCHAR"/>
+	 
+		<result property="modifier" column="MODIFIER" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+	  ID as id,
+	  YW_KEY as ywKey,
+	  FLOW_ID as flowId,
+	  TYPE as type,
+	  REMARK as remark,
+	  DEL_FLAG as delFlag,
+	  CREATE_DATE as createDate,
+	  MODIFY_DATE as modifyDate,
+	  CREATOR as creator,
+	  MODIFIER as modifier
+    </sql>
+
+    <insert id="insert" parameterType="YwFlowRelation">
+        INSERT INTO YW_FLOW_RELATION(
+			ID,
+			YW_KEY,
+			FLOW_ID,
+			TYPE,
+			REMARK,
+			DEL_FLAG,
+			CREATE_DATE,
+			MODIFY_DATE,
+			CREATOR,
+			MODIFIER
+        ) VALUES (
+			#{id,jdbcType=VARCHAR},
+			#{ywKey,jdbcType=VARCHAR},
+			#{flowId,jdbcType=VARCHAR},
+			#{type,jdbcType=NUMERIC},
+			#{remark,jdbcType=VARCHAR},
+			#{delFlag,jdbcType=NUMERIC},
+			#{createDate,jdbcType=VARCHAR},
+			#{modifyDate,jdbcType=VARCHAR},
+			#{creator,jdbcType=VARCHAR},
+			#{modifier,jdbcType=VARCHAR}
+        )
+    </insert>
+
+	<update id="update" parameterType="YwFlowRelation" >
+        UPDATE YW_FLOW_RELATION 
+        <set>
+	        <if test="id != null">
+				ID = #{id,jdbcType=VARCHAR},
+			</if>
+	        <if test="ywKey != null">
+				YW_KEY = #{ywKey,jdbcType=VARCHAR},
+			</if>
+	        <if test="flowId != null">
+				FLOW_ID = #{flowId,jdbcType=VARCHAR},
+			</if>
+	        <if test="type != null">
+				TYPE = #{type,jdbcType=NUMERIC},
+			</if>
+	        <if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+	        <if test="delFlag != null">
+				DEL_FLAG = #{delFlag,jdbcType=NUMERIC},
+			</if>
+	        <if test="createDate != null">
+				CREATE_DATE = #{createDate,jdbcType=VARCHAR},
+			</if>
+	        <if test="modifyDate != null">
+				MODIFY_DATE = #{modifyDate,jdbcType=VARCHAR},
+			</if>
+	        <if test="creator != null">
+				CREATOR = #{creator,jdbcType=VARCHAR},
+			</if>
+	        <if test="modifier != null">
+				MODIFIER = #{modifier,jdbcType=VARCHAR},
+			</if>
+		</set>	        
+        WHERE id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<select id="get" resultType="YwFlowRelation">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM YW_FLOW_RELATION 
+		WHERE id = #{id, jdbcType=VARCHAR}
+		 AND DEL_FLAG = 0
+	</select>
+	 
+	<select id="findList" resultType="YwFlowRelation">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM YW_FLOW_RELATION 
+		WHERE
+		 <if test="id != null">
+			ID like 
+			#{id,jdbcType=VARCHAR}
+			AND
+		 </if>
+		 <if test="ywKey != null">
+			YW_KEY like 
+			#{ywKey,jdbcType=VARCHAR}
+			AND
+		 </if>
+		 <if test="flowId != null">
+			FLOW_ID like 
+			#{flowId,jdbcType=VARCHAR}
+			AND
+		 </if>
+		 <if test="type != null">
+			TYPE = 
+			#{type,jdbcType=NUMERIC}
+			AND
+		 </if>
+		 <if test="remark != null">
+			REMARK like 
+			#{remark,jdbcType=VARCHAR}
+			AND
+		 </if>
+		 <if test="delFlag != null">
+			DEL_FLAG = 
+			#{delFlag,jdbcType=NUMERIC}
+			AND
+		 </if>
+		 <if test="createDate != null">
+			CREATE_DATE like 
+			#{createDate,jdbcType=VARCHAR}
+			AND
+		 </if>
+		 <if test="modifyDate != null">
+			MODIFY_DATE like 
+			#{modifyDate,jdbcType=VARCHAR}
+			AND
+		 </if>
+		 <if test="creator != null">
+			CREATOR like 
+			#{creator,jdbcType=VARCHAR}
+			AND
+		 </if>
+		 <if test="modifier != null">
+			MODIFIER like 
+			#{modifier,jdbcType=VARCHAR}
+			AND
+		 </if>
+			1=1
+		 AND DEL_FLAG = 0
+	</select>
+	
+	<update id="deleteAll">
+		update YW_FLOW_RELATION 
+		set del_flag= '1'
+		WHERE id in
+		<foreach item="item" index="index" collection="array" open="("
+			separator="," close=")"> #{item}
+		</foreach>
+	</update>
+	
+	<select id="findAllList" resultType="YwFlowRelation">
+		SELECT
+			<include refid="Base_Column_List"/>
+		FROM YW_FLOW_RELATION 
+		WHERE 1=1
+		  AND DEL_FLAG = 0
+	</select>
+	
+</mapper>

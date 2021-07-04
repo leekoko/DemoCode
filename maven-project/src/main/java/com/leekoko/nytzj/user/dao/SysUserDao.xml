@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.leekoko.nytzj.user.dao.SysUserDao">
+	<!-- 账号创建规则，获取最后的一位用户，然后叠加一，默认是xxxxent00001，然后叠加上去。substr(user_code, 8)+0主要是获取最后一位。 -->
+	<select id="getLastUserNameByUserNamePrefix" resultType="string">
+		select user_code from (
+			select user_code, substr(user_code, #{subscript})+0 as userNum from platform_saas.c_sys_user where user_code like #{userNamePrefix} and del_flag = 0
+		) a order by a.userNum desc limit 1
+	</select>
+	
+</mapper>
